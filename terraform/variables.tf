@@ -9,3 +9,7 @@ variable "instance_type" {
   type        = string
   default     = "t3.micro"
 }
+variable "admin_cidr" {
+  description = "CIDR block allowed to access EC2 through SSH"
+  type        = string
+}

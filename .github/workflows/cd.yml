@@ -12,9 +12,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
       - name: Prepare SSH key
         run: |
           echo "${{ secrets.EC2_SSH_PRIVATE_KEY }}" > private_key
@@ -24,4 +21,4 @@ jobs:
         env:
           GHCR_TOKEN: ${{ secrets.GHCR_TOKEN }}
         run: |
-          echo "Deployment step will connect to EC2 here"
+          echo "Deployment will happen after EC2 is created"
