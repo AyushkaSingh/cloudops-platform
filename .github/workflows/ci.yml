@@ -41,7 +41,11 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
     
       - name: Tag Docker image
-        run: docker tag cloudops-app ghcr.io/ayushkasingh/cloudops-platform:latest
+        run: |
+        docker tag cloudops-app ghcr.io/ayushkasingh/cloudops-platform:latest
+        docker tag cloudops-app ghcr.io/ayushkasingh/cloudops-platform:${{ github.sha }}
 
-      - name: Push Docker image
-        run: docker push ghcr.io/ayushkasingh/cloudops-platform:latest
+      - name: Push Docker images
+        run: |
+        docker push ghcr.io/ayushkasingh/cloudops-platform:latest
+        docker push ghcr.io/ayushkasingh/cloudops-platform:${{ github.sha }}
