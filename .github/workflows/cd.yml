@@ -21,4 +21,16 @@ jobs:
         env:
           GHCR_TOKEN: ${{ secrets.GHCR_TOKEN }}
         run: |
-          echo "Deployment will happen after EC2 is created"
+          ssh -o StrictHostKeyChecking=no -i private_key ec2-user@3.110.91.151 "echo 'Connected to EC2'"
+
+          echo "$GHCR_TOKEN" | ssh -o StrictHostKeyChecking=no -i private_key ec2-user@3.110.91.151 \
+            "docker login ghcr.io -u AyushkaSingh --password-stdin"
+
+          ssh -o StrictHostKeyChecking=no -i private_key ec2-user@3.110.91.151 \
+            "docker pull ghcr.io/ayushkasingh/cloudops-platform:latest"
+
+          ssh -o StrictHostKeyChecking=no -i private_key ec2-user@3.110.91.151 \
+            "docker rm -f cloudops-container || true"
+
+          ssh -o StrictHostKeyChecking=no -i private_key ec2-user@3.110.91.151 \
+            "docker run -d --restart unless-stopped -p 80:3000 --name cloudops-container ghcr.io/ayushkasingh/cloudops-platform:latest"
